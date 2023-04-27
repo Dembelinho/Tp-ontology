@@ -1,7 +1,7 @@
 package ma.enset.sma.agents;
 
 import jade.content.lang.Codec;
-import jade.content.lang.sl.SLCodec;
+import jade.content.lang.rdf.RDFCodec;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.core.Agent;
@@ -12,16 +12,16 @@ import ma.enset.sma.Disponible;
 
 public class BuyerAgentRDF extends Agent {
     private Ontology catalogOntology= CatalogOntology.getCatalogOntology();
-    private Codec codec=new SLCodec();
+    private Codec rdfCodec =new RDFCodec();
 
     @Override
     protected void setup() {
      getContentManager().registerOntology(catalogOntology);
-     getContentManager().registerLanguage(codec);
+     getContentManager().registerLanguage(rdfCodec);
         MessageTemplate messageTemplate=MessageTemplate.and
                 (
                         MessageTemplate.MatchOntology(CatalogOntology.ONTOLOGY_NAME),
-        MessageTemplate.MatchLanguage(codec.getName()));
+        MessageTemplate.MatchLanguage(rdfCodec.getName()));
 
         ACLMessage receivedMessage = blockingReceive(messageTemplate);
         System.out.println(receivedMessage);

@@ -1,7 +1,7 @@
 package ma.enset.sma.agents;
 
 import jade.content.lang.Codec;
-import jade.content.lang.sl.SLCodec;
+import jade.content.lang.rdf.RDFCodec;
 import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.core.AID;
@@ -13,12 +13,12 @@ import ma.enset.sma.Usb;
 
 public class SellerAgentRDF extends Agent {
     private Ontology catalogOntology= CatalogOntology.getCatalogOntology();
-    private Codec codec=new SLCodec();
+    private Codec rdfCodec =new RDFCodec();
 
     @Override
     protected void setup() {
       getContentManager().registerOntology(catalogOntology);
-      getContentManager().registerLanguage(codec);
+      getContentManager().registerLanguage(rdfCodec);
 
       Usb usb=new Usb();
       usb.setName("SAMSUNG A30");
@@ -32,7 +32,7 @@ public class SellerAgentRDF extends Agent {
         ACLMessage message=new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("buyer",AID.ISLOCALNAME));
         message.setOntology(catalogOntology.getName());
-        message.setLanguage(codec.getName());
+        message.setLanguage(rdfCodec.getName());
         try {
             getContentManager().fillContent(message,disponible);
             send(message);
